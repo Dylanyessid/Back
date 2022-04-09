@@ -3,6 +3,7 @@ import morgan from 'morgan'
 import cors from 'cors'
 import usersRouter from './routers/user.routers'
 import questionsRouter from './routers/questions.routers'
+import answersRouter from './routers/answers.routers'
 import { dbConnect } from './database';
 
 const app = express();
@@ -27,4 +28,5 @@ app.use(morgan("dev"))
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/users", usersRouter);
-app.use("/questions", questionsRouter)
+app.use("/questions", questionsRouter),
+app.use("/answers", answersRouter)

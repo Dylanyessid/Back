@@ -13,13 +13,7 @@ const questionSchema = new mongoose.Schema({
     description:{
         type:String,
         required:true,
-    },
-    answers:[
-        {
-            type:mongoose.Schema.Types.ObjectId,
-            required:false
-        }
-    ]
+    }
 })
 
 const Question = mongoose.model("Question", questionSchema);

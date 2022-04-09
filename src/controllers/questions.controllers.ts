@@ -21,7 +21,6 @@ export const getQuestions = async(req:Request,res:Response)=>{
              return res.status(500).json(err);
          }
 
-
         return res.status(200).json(questions)
     });
 

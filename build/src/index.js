@@ -17,6 +17,7 @@ const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const user_routers_1 = __importDefault(require("./routers/user.routers"));
 const questions_routers_1 = __importDefault(require("./routers/questions.routers"));
+const answers_routers_1 = __importDefault(require("./routers/answers.routers"));
 const database_1 = require("./database");
 const app = (0, express_1.default)();
 const PORT = 4000;
@@ -37,4 +38,5 @@ app.use(express_1.default.json());
 app.use((0, morgan_1.default)("dev"));
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use("/users", user_routers_1.default);
-app.use("/questions", questions_routers_1.default);
+app.use("/questions", questions_routers_1.default),
+    app.use("/answers", answers_routers_1.default);

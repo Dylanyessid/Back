@@ -1,0 +1,24 @@
+POST http://localhost:4000/answers/createAnswer HTTP/1.1
+Content-Type: application/json
+
+{
+    "question":"625046a7e74e1c6f88509cf1",
+    "user":"624dadb97be126ef233b6fd6",
+    "answer":"holaxd"
+    
+}
+
+###
+
+PUT http://localhost:4000/answers/qualify/6250a523c0ed5d0b0e6a32f2 HTTP/1.1
+Content-Type: application/json
+
+{
+    "punctuation":true
+
+}
+
+
+###
+GET http://localhost:4000/answers/getAnswers/625046a7e74e1c6f88509cf1 HTTP/1.1
+
