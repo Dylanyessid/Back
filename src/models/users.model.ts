@@ -18,10 +18,10 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    gradedAnswers:[{
-        type:String,
-    
-    }]
+    isQualified:{
+        type:Boolean,
+        required:true
+    }
 })
 
 const User = mongoose.model("Users", userSchema);

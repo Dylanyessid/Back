@@ -20,12 +20,9 @@ const createAnswer = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const newAnswer = new answers_model_1.default(data);
     newAnswer.score = 0;
     const question = yield questions_model_1.default.findById(data.question);
-    question.answers.push(newAnswer);
-    yield question.save((err) => {
-        if (err) {
-            return res.status(500).json(err);
-        }
-    });
+    if (!question) {
+        return res.status(400).json("No encontrado");
+    }
     newAnswer.save((err, answer) => {
         if (err) {
             return res.status(500).json(err);

@@ -2,11 +2,10 @@ POST http://localhost:4000/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-    "name":"hola",
-    "surname":"hola",
-    "email":"testesm",
-    "password":"contraseñacd",
-    "gradedAnswers":[]
+    "name":"a",
+    "surname":"a",
+    "email":"a",
+    "password":"a"
 }
 
 ###
@@ -18,3 +17,6 @@ Content-Type: application/json
     "email":"testesm",
     "password":"contraseñacd"
 }
+
+###
+GET  http://localhost:4000/users/getName/624dadb97be126ef233b6fd6 HTTP/1.1

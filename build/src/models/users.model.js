@@ -22,9 +22,10 @@ const userSchema = new mongoose_1.default.Schema({
         type: String,
         required: true
     },
-    gradedAnswers: [{
-            type: String,
-        }]
+    isQualified: {
+        type: Boolean,
+        required: true
+    }
 });
 const User = mongoose_1.default.model("Users", userSchema);
 exports.default = User;

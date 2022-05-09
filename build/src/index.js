@@ -18,11 +18,17 @@ const cors_1 = __importDefault(require("cors"));
 const user_routers_1 = __importDefault(require("./routers/user.routers"));
 const questions_routers_1 = __importDefault(require("./routers/questions.routers"));
 const answers_routers_1 = __importDefault(require("./routers/answers.routers"));
+const chat_routers_1 = __importDefault(require("./routers/chat.routers"));
 const database_1 = require("./database");
+const socket_io_1 = require("socket.io");
+const http_1 = __importDefault(require("http"));
 const app = (0, express_1.default)();
 const PORT = 4000;
+const server = http_1.default.createServer(app);
+const io = new socket_io_1.Server(server);
+io.on('connection', (socket) => { console.log("first"); socket.emit("ping"); });
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
         console.log("Connected in port: " + PORT);
         try {
             (0, database_1.dbConnect)();
@@ -37,6 +43,7 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use((0, morgan_1.default)("dev"));
 app.use(express_1.default.urlencoded({ extended: false }));
+app.use("/chats", chat_routers_1.default);
 app.use("/users", user_routers_1.default);
 app.use("/questions", questions_routers_1.default),
     app.use("/answers", answers_routers_1.default);
