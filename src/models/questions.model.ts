@@ -4,7 +4,7 @@ const questionSchema = new mongoose.Schema({
     user:{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: "User"
+        ref: "Users"
     },
     title:{
         type:String,
@@ -13,6 +13,10 @@ const questionSchema = new mongoose.Schema({
     description:{
         type:String,
         required:true,
+    },
+    isPrivate:{
+      type:Boolean,
+      required:true
     }
 })
 

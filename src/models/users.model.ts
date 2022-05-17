@@ -17,10 +17,6 @@ const userSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true
-    },
-    isQualified:{
-        type:Boolean,
-        required:true
     }
 })
 

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.qualifyAnswer = exports.getAnswersOfQuestion = exports.createAnswer = void 0;
+exports.getUserAnswers = exports.qualifyAnswer = exports.getAnswersOfQuestion = exports.createAnswer = void 0;
 const answers_model_1 = __importDefault(require("../models/answers.model"));
 const questions_model_1 = __importDefault(require("../models/questions.model"));
 const createAnswer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -49,3 +49,12 @@ const qualifyAnswer = (req, res) => {
     });
 };
 exports.qualifyAnswer = qualifyAnswer;
+const getUserAnswers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    answers_model_1.default.find({ user: req.params.user }, (err, answers) => {
+        if (err) {
+            return res.status(500).json(err);
+        }
+        return res.status(200).json(answers);
+    });
+});
+exports.getUserAnswers = getUserAnswers;

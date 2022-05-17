@@ -14,12 +14,27 @@ export const createQuestion = (req:Request, res:Response) =>{
 }
 
 export const getQuestions = async(req:Request,res:Response)=>{
-    
+
+     
      Question.find({},(err:any, questions:any)=>{
 
          if(err){
              return res.status(500).json(err);
          }
+
+        return res.status(200).json(questions)
+    });
+
+}
+
+export const getUserQuestions = (req:Request,res:Response)=>{
+    
+     Question.find({user:req.params.user},(err:any, questions:any)=>{
+
+         if(err){
+             return res.status(500).json(err);
+         }
+       
 
         return res.status(200).json(questions)
     });

@@ -39,11 +39,23 @@ export const qualifyAnswer = (req:Request, res:Response)=>{
     
     const punctuation = req.body.punctuation;
 
-    
     Answer.findById(req.params.answerId, (err:any, answer:any) =>{
     
         punctuation ? answer.score++ : answer.score--;
         answer.save();
         return res.status(200).json({message:"Respuesta puntuada con éxito."})
     })
+}
+
+export const getUserAnswers = async(req:Request,res:Response)=>{
+    
+     Answer.find({user:req.params.user},(err:any, answers:any)=>{
+
+         if(err){
+             return res.status(500).json(err);
+         }
+
+        return res.status(200).json(answers)
+    });
+
 }

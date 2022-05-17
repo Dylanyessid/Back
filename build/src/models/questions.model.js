@@ -8,7 +8,7 @@ const questionSchema = new mongoose_1.default.Schema({
     user: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         required: true,
-        ref: "User"
+        ref: "Users"
     },
     title: {
         type: String,
@@ -17,6 +17,10 @@ const questionSchema = new mongoose_1.default.Schema({
     description: {
         type: String,
         required: true,
+    },
+    isPrivate: {
+        type: Boolean,
+        required: true
     }
 });
 const Question = mongoose_1.default.model("Question", questionSchema);

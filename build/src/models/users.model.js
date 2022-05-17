@@ -21,10 +21,6 @@ const userSchema = new mongoose_1.default.Schema({
     password: {
         type: String,
         required: true
-    },
-    isQualified: {
-        type: Boolean,
-        required: true
     }
 });
 const User = mongoose_1.default.model("Users", userSchema);

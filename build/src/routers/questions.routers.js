@@ -8,4 +8,5 @@ const questions_controllers_1 = require("../controllers/questions.controllers");
 const Router = express_1.default.Router();
 Router.post("/createNewQuestion", questions_controllers_1.createQuestion);
 Router.get("/getQuestions", questions_controllers_1.getQuestions);
+Router.get("/getUserQuestions/:user", questions_controllers_1.getUserQuestions);
 exports.default = Router;

@@ -19,6 +19,7 @@ const user_routers_1 = __importDefault(require("./routers/user.routers"));
 const questions_routers_1 = __importDefault(require("./routers/questions.routers"));
 const answers_routers_1 = __importDefault(require("./routers/answers.routers"));
 const chat_routers_1 = __importDefault(require("./routers/chat.routers"));
+const request_routers_1 = __importDefault(require("./routers/request.routers"));
 const database_1 = require("./database");
 const socket_io_1 = require("socket.io");
 const http_1 = __importDefault(require("http"));
@@ -43,6 +44,7 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use((0, morgan_1.default)("dev"));
 app.use(express_1.default.urlencoded({ extended: false }));
+app.use("/requests", request_routers_1.default);
 app.use("/chats", chat_routers_1.default);
 app.use("/users", user_routers_1.default);
 app.use("/questions", questions_routers_1.default),
