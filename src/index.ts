@@ -7,17 +7,13 @@ import answersRouter from './routers/answers.routers'
 import chatRouter from './routers/chat.routers'
 import requestRouters from './routers/request.routers'
 import { dbConnect } from './database';
-import { Server } from 'socket.io'
-import http from 'http'
+
 
 const app = express();
 const PORT = 4000;
 
-const server = http.createServer(app);
-const io = new Server(server);
-io.on('connection',(socket:any)=>{console.log("first");socket.emit("ping") } )
 const main = async() =>{
-    server.listen(PORT, ()=>{
+    app.listen(PORT, ()=>{
         console.log("Connected in port: " + PORT)
         try{
             dbConnect();
@@ -28,10 +24,6 @@ const main = async() =>{
     })
 }
 main();
-
-
-
-
 
 app.use(cors())
 app.use(express.json())

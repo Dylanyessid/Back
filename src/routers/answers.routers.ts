@@ -5,6 +5,7 @@ import { createAnswer, getAnswersOfQuestion, getUserAnswers ,qualifyAnswer,  } f
 const Router = express.Router();
 
 Router.post("/createAnswer", createAnswer);
+Router.post("/score/:answer", createAnswer);
 Router.get("/getAnswers/:questionId", getAnswersOfQuestion)
 Router.put("/qualify/:answerId", qualifyAnswer)
 Router.get("/getUserAnswers/:user",getUserAnswers)

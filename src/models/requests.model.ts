@@ -6,7 +6,7 @@ const requestSchema = new mongoose.Schema({
         required: true,
         ref: "Users"
     },
-    area:[{
+    areas:[{
         type:String,
         required:true,
     }],

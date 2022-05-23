@@ -21,15 +21,10 @@ const answers_routers_1 = __importDefault(require("./routers/answers.routers"));
 const chat_routers_1 = __importDefault(require("./routers/chat.routers"));
 const request_routers_1 = __importDefault(require("./routers/request.routers"));
 const database_1 = require("./database");
-const socket_io_1 = require("socket.io");
-const http_1 = __importDefault(require("http"));
 const app = (0, express_1.default)();
 const PORT = 4000;
-const server = http_1.default.createServer(app);
-const io = new socket_io_1.Server(server);
-io.on('connection', (socket) => { console.log("first"); socket.emit("ping"); });
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
-    server.listen(PORT, () => {
+    app.listen(PORT, () => {
         console.log("Connected in port: " + PORT);
         try {
             (0, database_1.dbConnect)();

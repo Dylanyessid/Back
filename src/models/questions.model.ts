@@ -17,6 +17,13 @@ const questionSchema = new mongoose.Schema({
     isPrivate:{
       type:Boolean,
       required:true
+    },
+    areas:[{
+      type:String
+    }],
+    fileUri:{
+      type:String,
+      required:false
     }
 })
 

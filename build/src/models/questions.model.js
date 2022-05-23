@@ -21,6 +21,13 @@ const questionSchema = new mongoose_1.default.Schema({
     isPrivate: {
         type: Boolean,
         required: true
+    },
+    areas: [{
+            type: String
+        }],
+    fileUri: {
+        type: String,
+        required: false
     }
 });
 const Question = mongoose_1.default.model("Question", questionSchema);

@@ -8,4 +8,5 @@ const requests_controllers_1 = require("../controllers/requests.controllers");
 const Router = express_1.default.Router();
 Router.post("/createNewRequest", requests_controllers_1.createRequest);
 Router.get("/getRequest/:user", requests_controllers_1.getRequest);
+Router.put("/acceptRequest/:request", requests_controllers_1.acceptRequest);
 exports.default = Router;

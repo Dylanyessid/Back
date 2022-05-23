@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserAnswers = exports.qualifyAnswer = exports.getAnswersOfQuestion = exports.createAnswer = void 0;
+exports.addScore = exports.getUserAnswers = exports.qualifyAnswer = exports.getAnswersOfQuestion = exports.createAnswer = void 0;
 const answers_model_1 = __importDefault(require("../models/answers.model"));
 const questions_model_1 = __importDefault(require("../models/questions.model"));
+const score_model_1 = __importDefault(require("../models/score.model"));
 const createAnswer = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = (req.body);
     const newAnswer = new answers_model_1.default(data);
@@ -58,3 +59,14 @@ const getUserAnswers = (req, res) => __awaiter(void 0, void 0, void 0, function*
     });
 });
 exports.getUserAnswers = getUserAnswers;
+const addScore = (req, res) => {
+    answers_model_1.default.findById(req.params.answerId, (err, answer) => {
+        if (answer) {
+            let score = new score_model_1.default(req.params.answer, req.body.user);
+            req.body.isPositive ? score.isPositive = true : score.isPositive = false;
+            score.save();
+            return res.status(200).json(score);
+        }
+    });
+};
+exports.addScore = addScore;

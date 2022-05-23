@@ -40,3 +40,15 @@ export const getUserQuestions = (req:Request,res:Response)=>{
     });
 
 }
+
+export const getPrivateQuestions = (req:Request, res:Response)=>{
+  Question.find({isPrivate:true},(err:any, questions:any)=>{
+
+         if(err){
+             return res.status(500).json(err);
+         }
+       
+
+        return res.status(200).json(questions)
+    });
+}

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserQuestions = exports.getQuestions = exports.createQuestion = void 0;
+exports.getPrivateQuestions = exports.getUserQuestions = exports.getQuestions = exports.createQuestion = void 0;
 const questions_model_1 = __importDefault(require("../models/questions.model"));
 const createQuestion = (req, res) => {
     const question = new questions_model_1.default(req.body);
@@ -42,3 +42,12 @@ const getUserQuestions = (req, res) => {
     });
 };
 exports.getUserQuestions = getUserQuestions;
+const getPrivateQuestions = (req, res) => {
+    questions_model_1.default.find({ isPrivate: true }, (err, questions) => {
+        if (err) {
+            return res.status(500).json(err);
+        }
+        return res.status(200).json(questions);
+    });
+};
+exports.getPrivateQuestions = getPrivateQuestions;
