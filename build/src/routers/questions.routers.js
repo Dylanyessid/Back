@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const questions_controllers_1 = require("../controllers/questions.controllers");
 const Router = express_1.default.Router();
 Router.post("/createNewQuestion", questions_controllers_1.createQuestion);
+Router.post("/createNewQuestionWithFile", questions_controllers_1.createQuestionWithFile);
 Router.get("/getQuestions", questions_controllers_1.getQuestions);
 Router.get("/getPrivateQuestions", questions_controllers_1.getPrivateQuestions);
 Router.get("/getUserQuestions/:user", questions_controllers_1.getUserQuestions);

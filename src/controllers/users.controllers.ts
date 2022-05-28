@@ -26,7 +26,7 @@ export const login = async(req:Request, res:Response)=>{
             return res.status(400).json("No encontado")
         }
 
-        console.log(user)
+       
         if(req.body.password=='' || user.password==null || req.body.email==''){
             return res.status(400).json({message:"Los campos enviados son NULOS."})
         }
@@ -53,7 +53,7 @@ export const login = async(req:Request, res:Response)=>{
 }
 
 export const getUserNameByID = (req:Request, res:Response) =>{
-    console.log(req.params.id)
+   
     User.findById(req.params.id, (err:any, user:any)=>{
         
         if(!user){
@@ -62,7 +62,6 @@ export const getUserNameByID = (req:Request, res:Response) =>{
 
         return res.status(200).json(user)
         
-        console.log(user)
-
+       
     })
 }

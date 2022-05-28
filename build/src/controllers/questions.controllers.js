@@ -12,8 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPrivateQuestions = exports.getUserQuestions = exports.getQuestions = exports.createQuestion = void 0;
+exports.getPrivateQuestions = exports.getUserQuestions = exports.getQuestions = exports.createQuestion = exports.createQuestionWithFile = void 0;
 const questions_model_1 = __importDefault(require("../models/questions.model"));
+const createQuestionWithFile = (req, res) => {
+    console.log(req.body);
+    return res.status(200).json("Si");
+};
+exports.createQuestionWithFile = createQuestionWithFile;
 const createQuestion = (req, res) => {
     const question = new questions_model_1.default(req.body);
     question.save((err, question) => {

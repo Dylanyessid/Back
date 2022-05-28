@@ -1,6 +1,12 @@
 import { Request, Response } from "express"
 import Question from '../models/questions.model';
 
+
+export const createQuestionWithFile = (req:Request, res:Response)=>{
+  console.log(req.body);
+  return res.status(200).json("Si")
+}
+
 export const createQuestion = (req:Request, res:Response) =>{
     
     const question = new Question(req.body);
@@ -9,6 +15,7 @@ export const createQuestion = (req:Request, res:Response) =>{
             return res.status(500).json(err);
         }
         return res.status(200).json({message:"Pregunta creada"})
+      
     })
     
 }

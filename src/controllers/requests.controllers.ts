@@ -21,7 +21,6 @@ export const getRequest = (req:Request,res:Response)=>{
 
   
   const ObjectId = require('mongoose').Types.ObjectId
-  console.log(req.params.user + ":: " + new ObjectId(req.params.user))
      Req.findOne({user:new ObjectId(req.params.user) },(err:any, request:any)=>{
 
          if(err){

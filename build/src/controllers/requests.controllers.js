@@ -20,7 +20,6 @@ const createRequest = (req, res) => {
 exports.createRequest = createRequest;
 const getRequest = (req, res) => {
     const ObjectId = require('mongoose').Types.ObjectId;
-    console.log(req.params.user + ":: " + new ObjectId(req.params.user));
     requests_model_1.default.findOne({ user: new ObjectId(req.params.user) }, (err, request) => {
         if (err) {
             return res.status(500).json(err);

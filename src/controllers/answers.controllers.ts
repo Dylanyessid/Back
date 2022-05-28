@@ -23,27 +23,22 @@ export const createAnswer = async(req:Request, res:Response)=>{
 
 export const getAnswersOfQuestion = (req:Request, res:Response) =>{
     
-    Answer.find({question:req.params.questionId}, (err:any, answers:any) =>{
+    Answer.find({question:req.params.questionId}, null, {sort:{score:-1}},(err:any, answers:any) =>{
         
        
         if(err){
             return res.status(500).json(err)
         }
+      if(answers){
+
+        console.log(answers)
         return res.status(200).json(answers)
+        
+      }
+        
     })
 }
 
-export const qualifyAnswer = (req:Request, res:Response)=>{
-    
-    const punctuation = req.body.punctuation;
-
-    Answer.findById(req.params.answerId, (err:any, answer:any) =>{
-    
-        punctuation ? answer.score++ : answer.score--;
-        answer.save();
-        return res.status(200).json({message:"Respuesta puntuada con éxito."})
-    })
-}
 
 export const getUserAnswers = async(req:Request,res:Response)=>{
     
@@ -58,15 +53,84 @@ export const getUserAnswers = async(req:Request,res:Response)=>{
 
 }
 
-export const addScore = (req:Request, res:Response) => {
-  Answer.findById(req.params.answerId, (err:any, answer:any)=>{
-    if(answer){
-      let score = new Score(
-        req.params.answer, req.body.user 
-      )
-    req.body.isPositive ? score.isPositive = true: score.isPositive = false;
-      score.save()
-      return res.status(200).json(score)
+export const addScore = async(req:Request, res:Response) => {
+  Answer.findById(req.params.answerId, (err:any, qAnswer:any)=>{
+     const ObjectId = require('mongoose').Types.ObjectId
+    if(qAnswer){
+    const data = {answer:new ObjectId(req.params.answerId), user:new ObjectId(req.body.user),           isPositive:req.body.isPositive}
+      
+      Score.findOne({answer:req.params.answerId, user:req.body.user}, (err:any, score:any)=>{
+        if(!score){
+          let score = new Score(data);
+  
+          score.save()
+          Score.countDocuments({answer:req.params.answer, isPositive:true}, (err:any, countP:any)=>{
+           Score.countDocuments({answer:req.params.answer, isPositive:false}, (err:any, countN:any)=>{
+            qAnswer.score = countP - countN;
+           qAnswer.save();
+           return res.status(200).json(score);
+       })
+      })
+    }    
+    if(score){
+          if(score.isPositive == data.isPositive){
+            return res.status(400).json({message:"Ya has  indicado que te gusta la respuesta"})
+          }else{
+             Score.findOneAndUpdate({answer:req.params.answerId, user:req.body.user},  {isPositive:data.isPositive},[],(err:any, score:any)=>{
+              if(err){
+              return res.status(500).json(err)
+            }
+            return res.status(200).json({message:"Actalizado puntaje correctamente"})
+            })
+          };
+        }
+      }
     }
   })
+}
+
+export const removeScore = async(req:Request, res:Response)=>{
+  Score.findOneAndRemove({answer:req.params.answerId, user:req.params.user}, (err:any, score:any)=>{
+    if(err){
+      return res.status(500).json(err)
+    }
+     Answer.findById(req.params.answerId, (err:any, qAnswer:any)=>{
+
+       if(err){
+      return res.status(500).json(err)
+    }
+       
+    Score.countDocuments({answer:req.params.answer, isPositive:true}, (err:any, countP:any)=>{
+       Score.countDocuments({answer:req.params.answer, isPositive:false}, (err:any, countN:any)=>{
+         console.log(countP)
+          qAnswer.score = countP - countN;
+       qAnswer.save();
+       return res.status(200).json(score);
+       })
+
+    })
+     })
+  })
+}
+
+export const getScores = async(req:Request, res:Response)=>{
+  Score.find({question: req.params.question, user:req.params.user},(err:any, scores:any)=>{
+    return res.status(200).json(scores);
+  })
+}
+
+export const getScore = async(req:Request, res:Response)=>{
+  let positives = 0;
+  let negatives = 0;
+  let t = await Score.countDocuments({answer:req.params.answer, isPositive:true})
+
+  let p = 
+    await Score.countDocuments({answer:req.params.answer, isPositive:false})
+
+  positives = t;
+  negatives = p;
+ console.log({negatives,positives}) 
+res.status(200).json({negatives,positives})
+
+   
 }

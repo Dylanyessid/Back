@@ -36,7 +36,6 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!user) {
             return res.status(400).json("No encontado");
         }
-        console.log(user);
         if (req.body.password == '' || user.password == null || req.body.email == '') {
             return res.status(400).json({ message: "Los campos enviados son NULOS." });
         }
@@ -55,13 +54,11 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.login = login;
 const getUserNameByID = (req, res) => {
-    console.log(req.params.id);
     users_model_1.default.findById(req.params.id, (err, user) => {
         if (!user) {
             return res.status(400).json("No encontrado");
         }
         return res.status(200).json(user);
-        console.log(user);
     });
 };
 exports.getUserNameByID = getUserNameByID;
