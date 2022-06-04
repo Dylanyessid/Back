@@ -19,7 +19,9 @@ const answerSchema = new mongoose.Schema({
         type:Number,
         required: true
     }
-})
+},{
+        timestamps:true
+    })
 
 const Answer = mongoose.model("Answer", answerSchema);
 export default Answer;

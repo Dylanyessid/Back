@@ -22,11 +22,11 @@ const questionSchema = new mongoose_1.default.Schema({
         type: Boolean,
         required: true
     },
-    areas: [{
-            type: String
-        }],
-    fileUri: {
-        type: String,
+    area: {
+        type: String
+    },
+    designedUser: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
         required: false
     }
 });

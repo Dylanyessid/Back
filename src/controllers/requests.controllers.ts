@@ -31,7 +31,7 @@ export const getRequest = (req:Request,res:Response)=>{
           return res.status(404).json("No hay ")
         }
 
-        console.log(request)
+       
         return res.status(200).json(request)
     });
 

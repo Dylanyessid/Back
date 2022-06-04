@@ -30,8 +30,7 @@ export const getAnswersOfQuestion = (req: Request, res: Response) => {
       return res.status(500).json(err)
     }
     if (answers) {
-
-      console.log(answers)
+     
       return res.status(200).json(answers)
 
     }
@@ -54,38 +53,43 @@ export const getUserAnswers = async (req: Request, res: Response) => {
 }
 
 export const addScore = async (req: Request, res: Response) => {
-  Answer.findById(req.params.answerId, (err: any, qAnswer: any) => {
-    const ObjectId = require('mongoose').Types.ObjectId
+  const ObjectId = require('mongoose').Types.ObjectId
+ const qAnswer = await Answer.findById(req.params.answerId)
     if (qAnswer) {
       const data = { answer: new ObjectId(req.params.answerId), user: new ObjectId(req.body.user), isPositive: req.body.isPositive }
 
-      Score.findOne({ answer: req.params.answerId, user: req.body.user }, (err: any, score: any) => {
-        if (!score) {
+    const previousScore = await Score.findOne({ answer: req.params.answerId, user: req.body.user})
+        if (!previousScore) {
           let score = new Score(data);
-          score.save()
-          Score.countDocuments({ answer: req.params.answer, isPositive: true }, (err: any, countP: any) => {
-            Score.countDocuments({ answer: req.params.answer, isPositive: false }, (err: any, countN: any) => {
-              qAnswer.score = countP - countN;
-              qAnswer.save();
-              return res.status(200).json(score);
-            })
-          })
+          await score.save();
+          const cP = await Score.countDocuments({answer:req.params.answerId, isPositive:true})
+          const cN = await Score.countDocuments({answer:req.params.answerId, isPositive:false})
+          qAnswer.score = cP - cN;
+          await qAnswer.save()
+         return res.status(200).json(qAnswer)
         }
-        if (score) {
-          if (score.isPositive == data.isPositive) {
+      
+        if (previousScore) {
+          if (previousScore.isPositive == data.isPositive) {
             return res.status(400).json({ message: "Ya has  indicado que te gusta la respuesta" })
           } else {
             Score.findOneAndUpdate({ answer: req.params.answerId, user: req.body.user }, { isPositive: data.isPositive }, [], (err: any, score: any) => {
               if (err) {
                 return res.status(500).json(err)
               }
-              return res.status(200).json({ message: "Actalizado puntaje correctamente" })
+              Score.countDocuments({ answer: req.params.answer, isPositive: true }, (err: any, countP: any)=>{
+                Score.countDocuments({ answer: req.params.answer, isPositive: false }, (err: any, countN: any)=>{
+                  qAnswer.score = countP-countN;
+                  qAnswer.save()
+                  return res.status(200).json({ message: "Actalizado puntaje correctamente" })
+                })
+              })
             })
           };
         }
-      })
+      
     }
-  })
+  
 }
 
 export const removeScore = async (req: Request, res: Response) => {
@@ -128,8 +132,31 @@ export const getScore = async (req: Request, res: Response) => {
 
   positives = t;
   negatives = p;
-  console.log({ negatives, positives })
+
   res.status(200).json({ negatives, positives })
+}
+
+export const responsePrivateAnswer = async(req:Request, res:Response)=>{
 
 
+  try{
+    const answers = await Answer.find({question:req.params.question});
+    if(answers.length == 0){
+    const question = await Question.findById(req.params.question)
+    question.designedUser = req.params.user;
+      
+    await question.save()
+  }
+
+  const data = (req.body)
+  const newAnswer = new Answer(data);
+  newAnswer.score = 0;
+  await newAnswer.save()
+
+  return res.status(200).json(newAnswer)
+  }catch (err){
+    return res.status(404).json(err)
+  }
+  
+  
 }

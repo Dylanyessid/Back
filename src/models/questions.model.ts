@@ -18,11 +18,11 @@ const questionSchema = new mongoose.Schema({
       type:Boolean,
       required:true
     },
-    areas:[{
+    area:{
       type:String
-    }],
-    fileUri:{
-      type:String,
+    },
+    designedUser:{
+      type:mongoose.Schema.Types.ObjectId,
       required:false
     }
 })

@@ -1,5 +1,6 @@
 import { Request, response, Response } from "express";
 import User from '../models/users.model';
+import QualifiedUser from "../models/qualifedUsers.models"
 import bcrypt from 'bcryptjs'
 
 export const registerNewUser = async (req:Request, res:Response) =>{
@@ -52,16 +53,21 @@ export const login = async(req:Request, res:Response)=>{
    
 }
 
-export const getUserNameByID = (req:Request, res:Response) =>{
-   
-    User.findById(req.params.id, (err:any, user:any)=>{
-        
-        if(!user){
-            return res.status(400).json("No encontrado")
-        }
+export const getUserNameByID = async(req:Request, res:Response) =>{
+  
+    let user = await User.findById(req.params.id)
+    const qualifiedUser = await QualifiedUser.findOne({user:req.params.id});
 
-        return res.status(200).json(user)
-        
-       
-    })
+  let data = user.toObject()
+  let isQualified;
+  if(qualifiedUser){
+   data.isQualified = true
+  }else{
+     data.isQualified = false
+  }
+
+
+  return res.status(200).json(data)
+  
 }
+

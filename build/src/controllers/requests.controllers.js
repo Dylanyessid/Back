@@ -27,7 +27,6 @@ const getRequest = (req, res) => {
         if (!request) {
             return res.status(404).json("No hay ");
         }
-        console.log(request);
         return res.status(200).json(request);
     });
 };

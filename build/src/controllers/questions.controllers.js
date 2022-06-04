@@ -12,25 +12,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPrivateQuestions = exports.getUserQuestions = exports.getQuestions = exports.createQuestion = exports.createQuestionWithFile = void 0;
+exports.getAssignedQuestions = exports.getUserPrivateQuestions = exports.getPrivateQuestions = exports.getUserQuestions = exports.getQuestions = exports.getQuestion = exports.createQuestion = exports.createQuestionWithFile = void 0;
 const questions_model_1 = __importDefault(require("../models/questions.model"));
 const createQuestionWithFile = (req, res) => {
-    console.log(req.body);
     return res.status(200).json("Si");
 };
 exports.createQuestionWithFile = createQuestionWithFile;
 const createQuestion = (req, res) => {
     const question = new questions_model_1.default(req.body);
+    console.log(req.body);
+    console.log(question);
+    question.designedUser = null;
     question.save((err, question) => {
         if (err) {
+            console.log(err);
             return res.status(500).json(err);
         }
         return res.status(200).json({ message: "Pregunta creada" });
     });
 };
 exports.createQuestion = createQuestion;
+const getQuestion = (req, res) => {
+    questions_model_1.default.findById(req.params.question, (err, question) => {
+        return res.status(200).json(question);
+    });
+};
+exports.getQuestion = getQuestion;
 const getQuestions = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    questions_model_1.default.find({}, (err, questions) => {
+    questions_model_1.default.find({ isPrivate: false }, (err, questions) => {
         if (err) {
             return res.status(500).json(err);
         }
@@ -39,7 +48,7 @@ const getQuestions = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.getQuestions = getQuestions;
 const getUserQuestions = (req, res) => {
-    questions_model_1.default.find({ user: req.params.user }, (err, questions) => {
+    questions_model_1.default.find({ user: req.params.user, isPrivate: false }, (err, questions) => {
         if (err) {
             return res.status(500).json(err);
         }
@@ -48,7 +57,7 @@ const getUserQuestions = (req, res) => {
 };
 exports.getUserQuestions = getUserQuestions;
 const getPrivateQuestions = (req, res) => {
-    questions_model_1.default.find({ isPrivate: true }, (err, questions) => {
+    questions_model_1.default.find({ user: { $ne: req.params.user }, isPrivate: true, designedUser: null, area: req.params.area }, (err, questions) => {
         if (err) {
             return res.status(500).json(err);
         }
@@ -56,3 +65,21 @@ const getPrivateQuestions = (req, res) => {
     });
 };
 exports.getPrivateQuestions = getPrivateQuestions;
+const getUserPrivateQuestions = (req, res) => {
+    questions_model_1.default.find({ user: req.params.user, isPrivate: true }, (err, questions) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json(err);
+        }
+        return res.status(200).json(questions);
+    });
+};
+exports.getUserPrivateQuestions = getUserPrivateQuestions;
+const getAssignedQuestions = (req, res) => {
+    questions_model_1.default.find({ designedUser: req.params.user }, (err, questions) => {
+        if (err)
+            return res.status(500).json(err);
+        return res.status(200).json(questions);
+    });
+};
+exports.getAssignedQuestions = getAssignedQuestions;

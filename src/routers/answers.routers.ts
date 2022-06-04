@@ -1,9 +1,10 @@
 import express from 'express';
-import { createAnswer, getAnswersOfQuestion, getUserAnswers ,addScore,getScores,removeScore,getScore  } from '../controllers/answers.controllers';
+import { createAnswer, getAnswersOfQuestion, getUserAnswers ,addScore,getScores,removeScore,getScore, responsePrivateAnswer  } from '../controllers/answers.controllers';
 addScore
 
 const Router = express.Router();
 
+Router.post("/createAnswerForPrivateQuestion/:user/:question", responsePrivateAnswer);
 Router.post("/createAnswer", createAnswer);
 Router.post("/score/:answer", createAnswer);
 Router.get("/getAnswers/:questionId", getAnswersOfQuestion)

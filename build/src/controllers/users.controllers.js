@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUserNameByID = exports.login = exports.registerNewUser = void 0;
 const users_model_1 = __importDefault(require("../models/users.model"));
+const qualifedUsers_models_1 = __importDefault(require("../models/qualifedUsers.models"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const registerNewUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = (req.body);
@@ -53,12 +54,17 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.login = login;
-const getUserNameByID = (req, res) => {
-    users_model_1.default.findById(req.params.id, (err, user) => {
-        if (!user) {
-            return res.status(400).json("No encontrado");
-        }
-        return res.status(200).json(user);
-    });
-};
+const getUserNameByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let user = yield users_model_1.default.findById(req.params.id);
+    const qualifiedUser = yield qualifedUsers_models_1.default.findOne({ user: req.params.id });
+    let data = user.toObject();
+    let isQualified;
+    if (qualifiedUser) {
+        data.isQualified = true;
+    }
+    else {
+        data.isQualified = false;
+    }
+    return res.status(200).json(data);
+});
 exports.getUserNameByID = getUserNameByID;

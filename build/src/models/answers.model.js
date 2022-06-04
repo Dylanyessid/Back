@@ -23,6 +23,8 @@ const answerSchema = new mongoose_1.default.Schema({
         type: Number,
         required: true
     }
+}, {
+    timestamps: true
 });
 const Answer = mongoose_1.default.model("Answer", answerSchema);
 exports.default = Answer;
