@@ -13,10 +13,11 @@ const app = express();
 const PORT = 4000;
 
 const main = async() =>{
-    app.listen(PORT, ()=>{
+    app.listen(PORT ,()=>{
         console.log("Connected in port: " + PORT)
         try{
             dbConnect();
+ 
         }
         catch{
             console.log("ERROR")

@@ -28,6 +28,8 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log("Connected in port: " + PORT);
         try {
             (0, database_1.dbConnect)();
+            var ip = require("ip");
+            console.log(ip.address());
         }
         catch (_a) {
             console.log("ERROR");
